@@ -89,9 +89,48 @@
 					<div class="row">
 						<!-- Main Content -->
 						<div class="medium-9 small-12 columns" role="content">
-	<ul>
-		<li><a href="/category/qi-ta.html">其他</a></li>
-	</ul>
+							<div class="row">
+								<div class="small-12 columns">
+									<h2>Posts Tagged With 'python'</h2>
+								</div>
+							</div>
+
+<article>
+	<h3><a href="/code-test.html">代码高亮测试</a></h3>
+	<h6>Written by <a href="/author/elvis-wang.html">Elvis Wang</a> in <a href="/category/qi-ta.html">其他</a> on 周二 03 二月 2015. Tags: <a href="/tag/python.html">python</a>, <a href="/tag/code.html">code</a>, </h6>
+	<p>下面是Python代码</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s">'</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">():'</span> <span class="o">%</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+</pre></div>
+<p><br/> <br/>
+下面是C++代码</p>
+<div class="highlight"><pre><span class="c1">// !!! Qt 5</span>
+<span class="cp">#include &lt;QApplication&gt;</span>
+<span class="cp">#include &lt;QPushButton&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">QApplication</span> <span class="n">app</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+
+    <span class="n">QPushButton</span> <span class="n">button</span><span class="p">(</span><span class="s">"Quit"</span><span class="p">);</span>
+    <span class="n">QObject</span><span class="o">::</span><span class="n">connect</span><span class="p">(</span><span class="o">&amp;</span><span class="n">button</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">QPushButton</span><span class="o">::</span><span class="n">clicked</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">QApplication</span><span class="o">::</span><span class="n">quit</span><span class="p">);</span>
+    <span class="n">button</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">app</span><span class="p">.</span><span class="n">exec</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</article>
+<hr />
+
+
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->

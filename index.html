@@ -9,7 +9,7 @@
 		<meta name="author" content="elvis_w">
 
 		<link rel="stylesheet" href="/theme/css/foundation.css" />
-		<link rel="stylesheet" href="/theme/css/pygment/vs.css" />
+		<link rel="stylesheet" href="/theme/css/pygment/default.css" />
 		<link rel="stylesheet" href="/theme/css/custom.css" />
 
 
@@ -91,7 +91,41 @@
 						<div class="medium-9 small-12 columns" role="content">
 
 <article>
-	<h3><a href="/other.html">Hello World!</a></h3>
+	<h3><a href="/code-test.html">代码高亮测试</a></h3>
+	<h6>Written by <a href="/author/elvis-wang.html">Elvis Wang</a> in <a href="/category/qi-ta.html">其他</a> on 周二 03 二月 2015. Tags: <a href="/tag/python.html">python</a>, <a href="/tag/code.html">code</a>, </h6>
+	<p>下面是Python代码</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s">'</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">():'</span> <span class="o">%</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+</pre></div>
+<p><br/> <br/>
+下面是C++代码</p>
+<div class="highlight"><pre><span class="c1">// !!! Qt 5</span>
+<span class="cp">#include &lt;QApplication&gt;</span>
+<span class="cp">#include &lt;QPushButton&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">QApplication</span> <span class="n">app</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+
+    <span class="n">QPushButton</span> <span class="n">button</span><span class="p">(</span><span class="s">"Quit"</span><span class="p">);</span>
+    <span class="n">QObject</span><span class="o">::</span><span class="n">connect</span><span class="p">(</span><span class="o">&amp;</span><span class="n">button</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">QPushButton</span><span class="o">::</span><span class="n">clicked</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">QApplication</span><span class="o">::</span><span class="n">quit</span><span class="p">);</span>
+    <span class="n">button</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">app</span><span class="p">.</span><span class="n">exec</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</article>
+<hr />
+<article>
+	<h3><a href="/hello-world.html">Hello World!</a></h3>
 	<h6>Written by <a href="/author/elvis-wang.html">Elvis Wang</a> in <a href="/category/qi-ta.html">其他</a> on 周日 01 二月 2015. Tags: <a href="/tag/pelican.html">pelican</a>, <a href="/tag/publishing.html">publishing</a>, </h6>
 	<h1>测试文章</h1>
 <p>本文用来测试。  </p>
@@ -116,8 +150,10 @@
 							<div class="panel">
 								<h5>Tags</h5>
 								<ul class="tag-cloud">
-										<li class="tag-4"><a href="/tag/pelican.html">pelican</a></li>
+										<li class="tag-4"><a href="/tag/python.html">python</a></li>
+										<li class="tag-4"><a href="/tag/code.html">code</a></li>
 										<li class="tag-4"><a href="/tag/publishing.html">publishing</a></li>
+										<li class="tag-4"><a href="/tag/pelican.html">pelican</a></li>
 								</ul>
 							</div>
 
