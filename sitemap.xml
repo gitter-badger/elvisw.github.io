@@ -4,112 +4,112 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>/</loc>
-<lastmod>2015-02-04T14:41:26-00:00</lastmod>
+<loc>http://elvisw.com/</loc>
+<lastmod>2015-02-04T15:28:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/archives.html</loc>
-<lastmod>2015-02-04T14:41:26-00:00</lastmod>
+<loc>http://elvisw.com/archives.html</loc>
+<lastmod>2015-02-04T15:28:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tags.html</loc>
-<lastmod>2015-02-04T14:41:26-00:00</lastmod>
+<loc>http://elvisw.com/tags.html</loc>
+<lastmod>2015-02-04T15:28:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/categories.html</loc>
-<lastmod>2015-02-04T14:41:26-00:00</lastmod>
+<loc>http://elvisw.com/categories.html</loc>
+<lastmod>2015-02-04T15:28:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pandoc-markdown.html</loc>
+<loc>http://elvisw.com/pandoc-markdown.html</loc>
 <lastmod>2015-02-04T10:20:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/code-test.html</loc>
+<loc>http://elvisw.com/code-test.html</loc>
 <lastmod>2015-02-03T19:30:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/hello-world.html</loc>
+<loc>http://elvisw.com/hello-world.html</loc>
 <lastmod>2015-02-01T19:30:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/markdown.html</loc>
+<loc>http://elvisw.com/category/markdown.html</loc>
 <lastmod>2015-02-04T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/qi-ta.html</loc>
+<loc>http://elvisw.com/category/qi-ta.html</loc>
 <lastmod>2015-02-03T19:30:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/pelican.html</loc>
+<loc>http://elvisw.com/tag/pelican.html</loc>
 <lastmod>2015-02-01T19:30:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/code.html</loc>
+<loc>http://elvisw.com/tag/code.html</loc>
 <lastmod>2015-02-03T19:30:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/publishing.html</loc>
+<loc>http://elvisw.com/tag/publishing.html</loc>
 <lastmod>2015-02-01T19:30:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/pandoc.html</loc>
+<loc>http://elvisw.com/tag/pandoc.html</loc>
 <lastmod>2015-02-04T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/python.html</loc>
+<loc>http://elvisw.com/tag/python.html</loc>
 <lastmod>2015-02-03T19:30:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/markdown.html</loc>
+<loc>http://elvisw.com/tag/markdown.html</loc>
 <lastmod>2015-02-04T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/author/elvis-wang.html</loc>
+<loc>http://elvisw.com/author/elvis-wang.html</loc>
 <lastmod>2015-02-04T10:20:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
