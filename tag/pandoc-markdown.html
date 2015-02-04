@@ -91,37 +91,22 @@
 						<div class="medium-9 small-12 columns" role="content">
 							<div class="row">
 								<div class="small-12 columns">
-									<h2>Posts Tagged With 'code'</h2>
+									<h2>Posts Tagged With 'Pandoc Markdown'</h2>
 								</div>
 							</div>
 
 <article>
-	<h3><a href="/code-test.html">代码高亮测试</a></h3>
-	<h6>Written by <a href="/author/elvis-wang.html">Elvis Wang</a> in <a href="/category/qi-ta.html">其他</a> on 周二 03 二月 2015. Tags: <a href="/tag/python.html">python</a>, <a href="/tag/code.html">code</a>, </h6>
-	<p>下面是Python代码</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">functools</span>
-
-<span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-        <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-            <span class="k">print</span> <span class="s">'</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">():'</span> <span class="o">%</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">wrapper</span>
-    <span class="k">return</span> <span class="n">decorator</span>
+	<h3><a href="/pandoc-markdown.html">Pandoc's Markdown 语法中文翻译</a></h3>
+	<h6>Written by <a href="/author/elvis-wang.html">Elvis Wang</a> in <a href="/category/markdown.html">Markdown</a> on 周三 04 二月 2015. Tags: <a href="/tag/pandoc-markdown.html">Pandoc Markdown</a>, </h6>
+	<p>% 本文转载于 http://pages.tzengyuxio.me/pandoc/ 使用<a href="https://github.com/BYVoid/OpenCC">OpenCC</a>进行简繁转换。转换命令行</p>
+<div class="highlight"><pre>opencc -c /usr/share/opencc/t2s.json -i pandoc.markdown -o pandocmarkdown.md
 </pre></div>
-<p><br/> <br/>
-下面是C++代码</p>
-<div class="highlight"><pre><span class="c1">// !!! Qt 5</span>
-<span class="cp">#include &lt;QApplication&gt;</span>
-<span class="cp">#include &lt;QPushButton&gt;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-    <span class="n">QApplication</span> <span class="n">app</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
-
-    <span class="n">QPushButton</span> <span class="n">button ...</span></pre></div>
-		<p class="continue"><a href="/code-test.html">Continue reading &raquo;</a></p>
+<p><br/>
+% <a href="http://pages.tzengyuxio.me/pandoc/">Pandoc's Markdown 语法中文翻译</a>
+% by John MacFarlane; Translated by <a href="http://tzengyuxio.me">Tzeng Yuxio</a></p>
+<h2>前言</h2>
+<p>这份文件是 <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> 版本 Markdown 语法的中文翻译。Pandoc 本身是由 <a href="http://johnmacfarlane.net/">John MacFarlane</a> 所开发的文件转换工具，可以在 HTML, Markdown, PDF, TeX ...</p>
+		<p class="continue"><a href="/pandoc-markdown.html">Continue reading &raquo;</a></p>
 </article>
 <hr />
 
