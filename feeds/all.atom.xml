@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>猫王的叹息</title><link href="http://elvisw.com/" rel="alternate"></link><link href="http://elvisw.com/feeds/all.atom.xml" rel="self"></link><id>http://elvisw.com/</id><updated>2015-02-05T16:20:00+08:00</updated><entry><title>Pandoc's Markdown 语法中文翻译</title><link href="http://elvisw.com/pandoc-markdown.html" rel="alternate"></link><updated>2015-02-05T16:20:00+08:00</updated><author><name>Elvis Wang</name></author><id>tag:elvisw.com,2015-02-04:pandoc-markdown.html</id><summary type="html">&lt;p&gt;% 本文转载于 http://pages.tzengyuxio.me/pandoc/ 使用&lt;a href="https://github.com/BYVoid/OpenCC"&gt;OpenCC&lt;/a&gt;进行简繁转换。转换命令行&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;opencc -c /usr/share/opencc/tw2s.json -i pandoc.markdown -o pandocmarkdown.md
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br/&gt;
+% &lt;a href="http://pages.tzengyuxio.me/pandoc/"&gt;Pandoc's Markdown 语法中文翻译&lt;/a&gt;
+% by John MacFarlane; Translated by &lt;a href="http://tzengyuxio.me"&gt;Tzeng Yuxio&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;这份文件是 &lt;a href="http://johnmacfarlane.net/pandoc/"&gt;Pandoc&lt;/a&gt; 版本 Markdown 语法的中文翻译。Pandoc 本身是由 &lt;a href="http://johnmacfarlane.net/"&gt;John MacFarlane&lt;/a&gt; 所开发的文件转换工具，可以在 HTML, Markdown, PDF, TeX...等等格式之间进行转换。有许多喜欢纯文字编辑的人，利用 Pandoc 来进行论文的撰写或投影片制作。但除了转换的功能外，Pandoc 所定义的 Markdown 扩充语法也是这套工具的一大亮点，在 Pandoc 的官方使用说明文件中，光是其针对 Markdown 格式的扩充就占了整整一半左右的篇幅。 &lt;/p&gt;
+&lt;p&gt;本文件翻译自 &lt;a href="http://johnmacfarlane.net/pandoc/README.html#pandocs-markdown"&gt;Pandoc - Pandoc User’s Guide&lt;/a&gt; 中的 "Pandoc's markdown" 一节。你可以看看&lt;a href="https://raw.github.com/tzengyuxio/pages/gh-pages/pandoc/pandoc.markdown"&gt;这份文件的原始档&lt;/a&gt;、产生文件&lt;a href="https://github.com/tzengyuxio/pages/blob/gh-pages/pandoc/pm-template.html5"&gt;所使用的 HTML 范本&lt;/a&gt;，以及&lt;a href="https://github.com/tzengyuxio/pages/blob/gh-pages/pandoc/convert.sh"&gt;转换时的命令参数&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;以下翻译开始。&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h1&gt;Pandoc's markdown&lt;/h1&gt;
+&lt;p&gt;与 John Gruber 的 原始 &lt;a href="http://daringfireball.net/projects/markdown/"&gt;markdown&lt;/a&gt; 相比，Pandoc 版本的 markdown 在语法上有额外的扩充与些许的修正。这份文件解释了这些语法，并指出其与原始 markdown 的差异所在。除非特别提到，不然这些差异均可借由使用 &lt;code&gt;markdown_strict&lt;/code&gt; 而非 &lt;code&gt;markdown&lt;/code&gt; 的格式来关闭。单独一项扩充也可透过 &lt;code&gt;+EXTENSION&lt;/code&gt; 或 &lt;code&gt;-EXTENSION&lt;/code&gt; 的方式来开启或关闭。例如，&lt;code&gt;markdown_strict+footnotes&lt;/code&gt; 表示加上脚注扩充的原始 markdown，而 &lt;code&gt;markdown-footnotes-pipe_tables&lt;/code&gt; 则是拿掉了脚注与管线表格扩充的 pandoc markdown。&lt;/p&gt;
+&lt;h2&gt;哲学&lt;/h2&gt;
+&lt;p&gt;Markdown 是针对易于书写与阅读的目标而设计的，特别是在易于阅读这点上尤为重要：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一份 Markdown 格式的文件应该要能以纯文字形式直接发表，并且一眼看过去不存在任何标记用的标签或格式指令。
+&lt;small&gt;&lt;a href="http://daringfireball.net/projects/markdown/syntax#philosophy"&gt;John Gruber&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这项原则同样也是 pandoc 在制订表格、脚注以及其他扩充的语法时，所依循的规范。&lt;/p&gt;
+&lt;p&gt;然而，pandoc 的目标与原始 markdown 的最初目标有着方向性的不同。在 markdown 原本的设计中，HTML 是其主要输出对象；然而 pandoc 则是针对多种输出格式而设计。因此，虽然 pandoc 同样也允许直接嵌入 HTML 标签，但并不鼓励这样的作法，取而代之的是 pandoc 提供了许多非 HTML 的方式，来让使用者输入像是定义清单、表格、数学公式以及脚注等诸如此类的重要文件元素。&lt;/p&gt;
+&lt;h2&gt;段落&lt;/h2&gt;
+&lt;p&gt;一个段落指的是一行以上的文字，跟在一行以上的空白行之后。换行字元会被当作是空白处理，因此你可以依自己喜好排列段落文字。如果你需要强制换行，在行尾放上两个以上的空白字元即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;escaped_line_breaks&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;一个反斜线后跟着一个换行字元，同样也有强制换行的效果。&lt;/p&gt;
+&lt;h2&gt;标题&lt;/h2&gt;
+&lt;p&gt;有两种不同形式的标题语法，Setext 以及 atx。&lt;/p&gt;
+&lt;h3&gt;Setext 风格标题&lt;/h3&gt;
+&lt;p&gt;Setext 风格的标题是由一行文字底下接着一行 &lt;code&gt;=&lt;/code&gt; 符号（用于一阶标题）或 &lt;code&gt;-&lt;/code&gt; 符号（用于二阶标题）所构成：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gh"&gt;A level-one header&lt;/span&gt;
+&lt;span class="gh"&gt;==================&lt;/span&gt;
+
+&lt;span class="gh"&gt;A level-two header&lt;/span&gt;
+&lt;span class="gh"&gt;------------------&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;标题的文字可以包含行内格式，例如强调（见下方 [行内格式] 一节）。&lt;/p&gt;
+&lt;h3&gt;Atx 风格标题&lt;/h3&gt;
+&lt;p&gt;Atx 风格的标题是由一到六个 &lt;code&gt;#&lt;/code&gt; 符号以及一行文字所组成，你可以在文字后面加上任意数量的 &lt;code&gt;#&lt;/code&gt; 符号。由行首起算的 &lt;code&gt;#&lt;/code&gt; 符号数量决定了标题的阶层：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;## A level-two header
+
+### A level-three header ###
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如同 setext 风格标题，这里的标题文字同样可包含行内格式：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;# A level-one header with a [link](/url) and *emphasis*
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;blank_before_header&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;原始 markdown 语法在标题之前并不需要预留空白行。Pandoc 则需要（除非标题位于文件最开始的地方）。这是因为以 &lt;code&gt;#&lt;/code&gt; 符号开头的情况在一般文字段落中相当常见，这会导致非预期的标题。例如下面的例子：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;I like several of their flavors of ice cream:
+#22, for example, and #5.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;HTML, LaTeX 与 ConTeXt 的标题识别符&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;header_attributes&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在标题文字所在行的行尾，可以使用以下语法为标题加上属性：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;{#identifier .class .class key=value key=value}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;虽然这个语法也包含加入类别 (class) 以及键／值形式的属性 (attribute)，但目前只有识别符 (identifier/ID) 在输出时有实际作用（且只在部分格式的输出，包括：HTML, LaTeX, ConTeXt, Textile, AsciiDoc）。举例来说，下面是将标题加上 &lt;code&gt;foo&lt;/code&gt; 识别符的几种方法：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;# My header {#foo}
+
+## My header ##    {#foo}
+
+My other header   {#foo}
+---------------
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;（此语法与 &lt;a href="http://www.michelf.com/projects/php-markdown/extra/"&gt;PHP Markdown Extra&lt;/a&gt; 相容。）&lt;/p&gt;
+&lt;p&gt;具有 &lt;code&gt;unnumbered&lt;/code&gt; 类别的标题将不会被编号，即使 &lt;code&gt;--number-sections&lt;/code&gt; 的选项是开启的。单一连字符号 (&lt;code&gt;-&lt;/code&gt;) 等同于 &lt;code&gt;.unnumbered&lt;/code&gt;，且更适用于非英文文件中。因此，&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;# My header {-}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;与下面这行是等价的&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;# My header {.unnumbered}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;auto_identifiers&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;没有明确指定 ID（识别符）的标题将会依据其标题文字，自动指派一个独一无二的 ID。由标题文字推导 ID 的规则如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;移除所有格式，连结等。&lt;/li&gt;
+&lt;li&gt;移除所有标点符号，除了底线、连字符号与句号。&lt;/li&gt;
+&lt;li&gt;以连字符号取代所有空白与换行字元。&lt;/li&gt;
+&lt;li&gt;将所有英文字母转为小写。&lt;/li&gt;
+&lt;li&gt;移除第一个字元前的所有内容（ID 不能以数字或标点符号开头）。&lt;/li&gt;
+&lt;li&gt;如果剩下为空字串，则使用 &lt;code&gt;section&lt;/code&gt; 作为 ID。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以下是一些范例，&lt;/p&gt;
+&lt;table class=" table-striped table table-hover"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Header&lt;/th&gt;
+&lt;th&gt;Identifier&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Header identifiers in HTML&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;header-identifiers-in-html&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;em&gt;Dogs&lt;/em&gt;?--in &lt;em&gt;my&lt;/em&gt; house?&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;dogs--in-my-house&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;[HTML], [S5], or [RTF]?&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;html-s5-or-rtf&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3. Applications&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;applications&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;33&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;section&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;在大多数情况下，这些规则应该让人能够直接从标题文字推导出 ID。唯一的例外是当有多个标题具有同样文字的情况；在这情况下，第一个标题的 ID 仍旧是透过以上规则推导而得；第二个则是在同样 ID 后加上 &lt;code&gt;-1&lt;/code&gt;；第三个加上 &lt;code&gt;-2&lt;/code&gt;；以此类推。&lt;/p&gt;
+&lt;p&gt;在开启 &lt;code&gt;--toc|--table-of-contents&lt;/code&gt; 的选项时，这些 ID 是用来产生目录 (Table of Contents) 所需的页面连结。此外，这些 ID 也提供了一个简便的方式来输入跳到指定章节的连结。一个以 ID 产生的连结，其使用的语法看起来就像下面的例子：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;See&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;section&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;latex&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;and&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然而要注意的一点是，只有在以 HTML、LaTeX 与 ConTeXt 格式输出时，才能以这种方式产生对应的章节连结。&lt;/p&gt;
+&lt;p&gt;如果指定了 &lt;code&gt;--section-divs&lt;/code&gt; 选项，则每一个小节都会以 &lt;code&gt;div&lt;/code&gt; 标签包住（或是 &lt;code&gt;section&lt;/code&gt; 标签，如果有指定 &lt;code&gt;--html5&lt;/code&gt; 选项的话），并且 ID 会被附加在用来包住小节的 &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt;（或是 &lt;code&gt;&amp;lt;section&amp;gt;&lt;/code&gt;）标签，而非附加在标题上。这使得整个小节都可以透过 javascript 来操作，或是采用不同的 CSS 设定。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;implicit_header_references&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Pandoc 假设每个标题都定义了其参考连结，因此，相较于以下的连结语法&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="err"&gt;#&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;你也可以单纯只写&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;或&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="p"&gt;][]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;或&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;section&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="n"&gt;identifiers&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果有多个标题具有同样文字，对应的参考只会连结到第一个符合的标题，这时若要连结到其他符合的标题，就必须以先前提到的方式，明确指定连结到该标题的 ID。&lt;/p&gt;
+&lt;p&gt;与其他一般参考连结不同的是，这些参考连结是大小写有别的。&lt;/p&gt;
+&lt;p&gt;注意：如果你有明确定义了任何一个标题的标示符，那么选项 &lt;code&gt;implicit_header_references&lt;/code&gt; 就没有作用。&lt;/p&gt;
+&lt;h2&gt;区块引言&lt;/h2&gt;
+&lt;p&gt;Markdown 使用 email 的习惯来建立引言区块。一个引言区块可以由一或多个段落或其他的区块元素（如清单或标题）组成，并且其行首均是由一个 &lt;code&gt;&amp;gt;&lt;/code&gt; 符号加上一个空白作为开头。（&lt;code&gt;&amp;gt;&lt;/code&gt; 符号不一定要位在该行最左边，但也不能缩进超过三个空白）。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&amp;gt; This is a block quote. This
+&amp;gt; paragraph has two lines.
+&amp;gt;
+&amp;gt; 1. This is a list inside a block quote.
+&amp;gt; 2. Second item.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;有一个「偷懒」的形式：你只需要在引言区块的第一行行首输入 &lt;code&gt;&amp;gt;&lt;/code&gt; 即可，后面的行首可以省略符号：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&amp;gt; This is a block quote. This
+paragraph has two lines.
+
+&amp;gt; 1. This is a list inside a block quote.
+2. Second item.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;由于区块引言可包含其他区块元素，而区块引言本身也是区块元素，所以，引言是可以嵌套入其他引言的。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&amp;gt; This is a block quote.
+&amp;gt;
+&amp;gt; &amp;gt; A block quote within a block quote.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;blank_before_blockquote&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;原始 markdown 语法在区块引言之前并不需要预留空白行。Pandoc 则需要（除非区块引言位于文件最开始的地方）。这是因为以 &lt;code&gt;&amp;gt;&lt;/code&gt; 符号开头的情况在一般文字段落中相当常见（也许由于断行所致），这会导致非预期的格式。因此，除非是指定为 &lt;code&gt;markdown_strict&lt;/code&gt; 格式，不然以下的语法在 pandoc 中将不会产生出嵌套区块引言：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&amp;gt; This is a block quote.
+&amp;gt;&amp;gt; Nested.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;字面（代码）区块&lt;/h2&gt;
+&lt;h3&gt;缩进代码区块&lt;/h3&gt;
+&lt;p&gt;一段以四个空白（或一个 tab）缩进的文字区块会被视为字面区块 (Verbatim Block)：换句话说，特殊字元并不会转换为任何格式，单纯只以字面形式呈现，而所有的空白与换行也都会被保留。例如，&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;    if (a &amp;gt; 3) {
+      moveShip(5 * gravity, DOWN);
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;位于行首的缩排（四个空白或一个 tab）并不会被视为字面区块的一部分，因此在输出时会被移除掉。&lt;/p&gt;
+&lt;p&gt;注意：在字面文字之间的空白行并不需要也以四个空白字元做开头。&lt;/p&gt;
+&lt;h3&gt;围栏代码区块&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;fenced_code_blocks&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;除了标准的缩进代码区块外，Pandoc 也支援了&lt;strong&gt;围栏&lt;/strong&gt; (&lt;em&gt;fenced&lt;/em&gt;) 代码区块的语法。这区块需以包含三个以上波浪线 (&lt;code&gt;~&lt;/code&gt;) 或反引号 (&lt;code&gt;`&lt;/code&gt;) 的一行作为开始，并以同样符号且至少同样长度的一行作为结束。所有介于开始与结束之间的文字行都会视为代码。不需要额外的缩进：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;~~~~~~~
+if (a &amp;gt; 3) {
+  moveShip(5 * gravity, DOWN);
+}
+~~~~~~~
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如同一般的代码区块，围栏代码区块与其前后的文字之间必须以空白行作间隔。&lt;/p&gt;
+&lt;p&gt;如果代码本身也包含了一整行的波浪线或反引号，那么只要在区块首尾处使用更长的波浪线或反引号即可：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+code including tildes
+~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;你也可以选择性地使用以下语法附加属性到代码区块上：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;~~~~ {#mycode .haskell .numberLines startFrom="100"}
+qsort []     = []
+qsort (x:xs) = qsort (filter (&amp;lt; x) xs) ++ [x] ++
+               qsort (filter (&amp;gt;= x) xs)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这里的 &lt;code&gt;mycode&lt;/code&gt; 为 ID，&lt;code&gt;haskell&lt;/code&gt; 与 &lt;code&gt;numberLines&lt;/code&gt; 是类别，而 &lt;code&gt;startsFrom&lt;/code&gt; 则是值为 &lt;code&gt;100&lt;/code&gt; 的属性。有些输出格式可以利用这些资讯来作语法高亮。目前有使用到这些资讯的输出格式仅有 HTML 与 LaTeX。如果指定的输出格式及语言类别有支援语法高亮，那么上面那段代码区块将会以高亮并带有行号的方式呈现。（要查询支援的程式语言清单，可在命令列输入 &lt;code&gt;pandoc --version&lt;/code&gt;。）反之若无支援，则上面那段代码区块则会以下面的形式呈现：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;pre&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;"mycode"&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;"haskell numberLines"&lt;/span&gt; &lt;span class="na"&gt;startFrom=&lt;/span&gt;&lt;span class="s"&gt;"100"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;code&amp;gt;&lt;/span&gt;
+  ...
+  &lt;span class="nt"&gt;&amp;lt;/code&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;下面这个是针对代码区块只有指定程式语言属性的简便形式：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;```haskell
+qsort [] = []
+```
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这与下面这行的效果是相同的：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;``` {.haskell}
+qsort [] = []
+```
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;要取消所有语法高亮，使用 &lt;code&gt;--no-highlight&lt;/code&gt; 选项。要设定语法高亮的配色，则使用 &lt;code&gt;--highlight-style&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;行区块&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;line_blocks&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;行区块是一连串以竖线 (&lt;code&gt;|&lt;/code&gt;) 加上一个空格所构成的连续行。行与行间的区隔在输出时将会以原样保留，行首的空白字元数目也一样会被保留；反之，这些行将会以 markdown 的格式处理。这个语法在输入诗句或地址时很有帮助。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;| The limerick packs laughs anatomical
+| In space that is quite economical.
+|    But the good ones I've seen
+|    So seldom are clean
+| And the clean ones so seldom are comical
+
+| 200 Main St.
+| Berkeley, CA 94718
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果有需要的话，书写时也可以将完整一行拆成多行，但后续行必须以空白作为开始。下面范例的前两行在输出时会被视为一整行：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;| The Right Honorable Most Venerable and Righteous Samuel L.
+  Constable, Jr.
+| 200 Main St.
+| Berkeley, CA 94718
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这是从 &lt;a href="http://docutils.sourceforge.net/docs/ref/rst/introduction.html"&gt;reStructuredText&lt;/a&gt; 借来的语法。&lt;/p&gt;
+&lt;h2&gt;清单&lt;/h2&gt;
+&lt;h3&gt;无序清单&lt;/h3&gt;
+&lt;p&gt;无序清单是以项目符号作列举的清单。每条项目都以项目符号 (&lt;code&gt;*&lt;/code&gt;, &lt;code&gt;+&lt;/code&gt; 或 &lt;code&gt;-&lt;/code&gt;) 作开头。下面是个简单的例子：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;* one
+* two
+* three
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这会产生一个「紧凑」清单。如果你想要一个「宽松」清单，也就是说以段落格式处理每个项目内的文字内容，那么只要在每个项目间加上空白行即可：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;* one
+
+* two
+
+* three
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;项目符号不能直接从行首最左边处输入，而必须以一至三个空白字元作缩进。项目符号后必须跟着一个空白字元。&lt;/p&gt;
+&lt;p&gt;清单项目中的接续行，若与该项目的第一行文字对齐（在项目符号之后），看上去会较为美观：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;* here is my first
+  list item.
+* and my second.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;但 markdown 也允许以下「偷懒」的格式：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;* here is my first
+list item.
+* and my second.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;四个空白规则&lt;/h3&gt;
+&lt;p&gt;一个清单项目可以包含多个段落以及其他区块等级的内容。然而，后续的段落必须接在空白行之后，并且以四个空白或一个 tab 作缩进。因此，如果项目里第一个段落与后面段落对齐的话（也就是项目符号前置入两个空白），看上去会比较整齐美观：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;  * First paragraph.
+
+    Continued.
+
+  * Second paragraph. With a code block, which must be indented
+    eight spaces:
+
+        { code }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;清单项目也可以包含其他清单。在这情况下前置的空白行是可有可无的。嵌套清单必须以四个空白或一个 tab 作缩进：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;* fruits
+    + apples
+        - macintosh
+        - red delicious
+    + pears
+    + peaches
+* vegetables
+    + brocolli
+    + chard
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上一节提到，markdown 允许你以「偷懒」的方式书写，项目的接续行可以不和第一行对齐。不过，如果一个清单项目中包含了多个段落或是其他区块元素，那么每个元素的第一行都必须缩进对齐。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;+ A lazy, lazy, list
+item.
+
++ Another one; this looks
+bad but is legal.
+
+    Second paragraph of second
+list item.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;尽管针对接续段落的「四个空白规则」是出自于官方的 &lt;a href=""&gt;markdown syntax guide&lt;/a&gt;，但是作为对应参考用的 &lt;code&gt;Markdown.pl&lt;/code&gt; 实作版本中并未遵循此一规则。所以当输入时若接续段落的缩进少于四个空白时，pandoc 所输出的结果会与 &lt;code&gt;Markdown.pl&lt;/code&gt; 的输出有所出入。&lt;/p&gt;
+&lt;p&gt;在 &lt;a href=""&gt;markdown syntax guide&lt;/a&gt; 中并未明确表示「四个空白规则」是否一体适用于 &lt;strong&gt;所有&lt;/strong&gt; 位于清单项目里的区块元素上；规范文件中只提及了段落与代码区块。但文件暗示了此规则适用于所有区块等级的内容（包含嵌套清单），并且 pandoc 以此方向进行解读与实作。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;http://daringfireball.net/projects/markdown/syntax#list
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;有序清单&lt;/h3&gt;
+&lt;p&gt;有序清单与无序清单相类似，唯一的差别在于清单项目是以列举编号作开头，而不是项目符号。&lt;/p&gt;
+&lt;p&gt;在原始 markdown 中，列举编号是阿拉伯数字后面接着一个句点与空白。数字本身代表的数值会被忽略，因此下面两个清单并无差别：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;1.  one
+2.  two
+3.  three
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上下两个清单的输出是相同的。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;5.  one
+7.  two
+1.  three
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;fancy_lists&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;与原始 markdown 不同的是，Pandoc 除了使用阿拉伯数字作为有序清单的编号外，也可以使用大写或小写的英文字母，以及罗马数字。清单标记可以用括号包住，也可以单独一个右括号，抑或是句号。如果清单标记是大写字母接着一个句号，句号后请使用至少两个空白字元。&lt;sup id="fnref:2"&gt;&lt;a class="footnote-ref" href="#fn:2" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;startnum&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;除了清单标记外，Pandoc 也能判读清单的起始编号，这两项资讯都会保留于输出格式中。举例来说，下面的输入可以产生一个从编号 9 开始，以单括号为编号标记的清单，底下还跟着一个小写罗马数字的子清单：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt; 9)  Ninth
+10)  Tenth
+11)  Eleventh
+       i. subone
+      ii. subtwo
+     iii. subthree
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;当遇到不同形式的清单标记时，Pandoc 会重新开始一个新的清单。所以，以下的输入会产生三份清单：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;(2) Two
+(5) Three
+1.  Four
+*   Five
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果需要预设的有序清单标记符号，可以使用 &lt;code&gt;#.&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;#.  one
+#.  two
+#.  three
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;定义清单&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;definition_lists&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Pandoc 支援定义清单，其语法的灵感来自于 &lt;a href="http://www.michelf.com/projects/php-markdown/extra/"&gt;PHP Markdown Extra&lt;/a&gt; 以及 &lt;a href="http://docutils.sourceforge.net/docs/ref/rst/introduction.html"&gt;reStructuredText&lt;/a&gt;：&lt;sup id="fnref:3"&gt;&lt;a class="footnote-ref" href="#fn:3" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;Term 1
+
+:   Definition 1
+
+Term 2 with *inline markup*
+
+:   Definition 2
+
+        { some code, part of Definition 2 }
+
+    Third paragraph of definition 2.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;每个专有名词 (term) 都必须单独存在于一行，后面可以接着一个空白行，也可以省略，但一定要接上一或多笔定义内容。一笔定义需由一个冒号或波浪线作开头，可以接上一或两个空白作为缩进。定义本身的内容主体（包括接在冒号或波浪线后的第一行）应该以四个空白缩进。一个专有名词可以有多个定义，而每个定义可以包含一或多个区块元素（段落、代码区块、清单等），每个区块元素都要缩进四个空白或一个 tab。&lt;/p&gt;
+&lt;p&gt;如果你在定义内容后面留下空白行（如同上面的范例），那么该段定义会被当作段落处理。在某些输出格式中，这意谓着成对的专有名词与定义内容间会有较大的空白间距。在定义与定义之间，以及定义与下个专有名词间不要留空白行，即可产生一个比较紧凑的定义清单：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;Term 1
+  ~ Definition 1
+Term 2
+  ~ Definition 2a
+  ~ Definition 2b
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;编号范例清单&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;example_lists&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这个特别的清单标记 &lt;code&gt;@&lt;/code&gt; 可以用来产生连续编号的范例清单。清单中第一个以 &lt;code&gt;@&lt;/code&gt; 标记的项目会被编号为 '1'，接着编号为 '2'，依此类推，直到文件结束。范例项目的编号不会局限於单一清单中，而是文件中所有以 &lt;code&gt;@&lt;/code&gt; 为标记的项目均会次序递增其编号，直到最后一个。举例如下：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;(@)  My first example will be numbered (1).
+(@)  My second example will be numbered (2).
+
+Explanation of examples.
+
+(@)  My third example will be numbered (3).
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;编号范例可以加上标签，并且在文件的其他地方作参照：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;(@good)  This is a good example.
+
+As (@good) illustrates, ...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;标签可以是由任何英文字母、底线或是连字符号所组成的字串。&lt;/p&gt;
+&lt;h3&gt;紧凑与宽松清单&lt;/h3&gt;
+&lt;p&gt;在与清单相关的「边界处理」上，Pandoc 与 &lt;code&gt;Markdown.pl&lt;/code&gt; 有着不同的处理结果。考虑如下代码：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;+   First
++   Second:
+    -   Fee
+    -   Fie
+    -   Foe
+
++   Third
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Pandoc 会将以上清单转换为「紧凑清单」（在 "First", "Second" 或 "Third" 之中没有 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 标签），而 markdown 则会在 "Second" 与 "Third" （但不包含 "First"）里面置入 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 标签，这是因为 "Third" 之前的空白行而造成的结果。Pandoc 依循着一个简单规则：如果文字后面跟着空白行，那么就会被视为段落。既然 "Second" 后面是跟着一个清单，而非空白行，那么就不会被视为段落了。至于子清单的后面是不是跟着空白行，那就无关紧要了。（注意：即使是设定为 &lt;code&gt;markdown_strict&lt;/code&gt; 格式，Pandoc 仍是依以上方式处理清单项目是否为段落的判定。这个处理方式与 markdown 官方语法规范里的描述一致，然而却与 &lt;code&gt;Markdown.pl&lt;/code&gt; 的处理不同。）&lt;/p&gt;
+&lt;h3&gt;结束一个清单&lt;/h3&gt;
+&lt;p&gt;如果你在清单之后放入一个缩排的代码区块，会有什么结果？&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;-   item one
+-   item two
+
+    { my code block }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;问题大了！这边 pandoc（其他的 markdown 实作也是如此）会将 &lt;code&gt;{ my code block }&lt;/code&gt; 视为 &lt;code&gt;item two&lt;/code&gt; 这个清单项目的第二个段落来处理，而不会将其视为一个代码区块。&lt;/p&gt;
+&lt;p&gt;要在 &lt;code&gt;item two&lt;/code&gt; 之后「切断」清单，你可以插入一些没有缩排、输出时也不可见的内容，例如 HTML 的注解：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;-   item one
+-   item two
+
+&amp;lt;!-- end of list --&amp;gt;
+
+    { my code block }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;当你想要两个各自独立的清单，而非一个大且连续的清单时，也可以运用同样的技巧：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;1.  one
+2.  two
+3.  three
+
+&amp;lt;!-- --&amp;gt;
+
+1.  uno
+2.  dos
+3.  tres
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;分隔线&lt;/h2&gt;
+&lt;p&gt;一行中若包含三个以上的 &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 符号（中间可以以空白字元分隔），则会产生一条分隔线：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;*  *  *  *
+
+---------------
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;表格&lt;/h2&gt;
+&lt;p&gt;有四种表格的形式可以使用。前三种适用于等宽字型的编辑环境，例如 Courier。第四种则不需要直行的对齐，因此可以在比例字型的环境下使用。&lt;/p&gt;
+&lt;h3&gt;简单表格&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;simple_tables&lt;/code&gt;, &lt;code&gt;table_captions&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;简单表格看起来像这样子：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;  Right     Left     Center     Default
+-------     ------ ----------   -------
+     12     12        12            12
+    123     123       123          123
+      1     1          1             1
+
+Table:  Demonstration of simple table syntax.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;表头与资料列分别以一行为单位。直行的对齐则依照表头的文字和其底下虚线的相对位置来决定：&lt;sup id="fnref:4"&gt;&lt;a class="footnote-ref" href="#fn:4" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果虚线与表头文字的右侧有切齐，而左侧比表头文字还长，则该直行为靠右对齐。&lt;/li&gt;
+&lt;li&gt;如果虚线与表头文字的左侧有切齐，而右侧比表头文字还长，则该直行为靠左对齐。&lt;/li&gt;
+&lt;li&gt;如果虚线的两侧都比表头文字长，则该直行为置中对齐。&lt;/li&gt;
+&lt;li&gt;如果虚线与表头文字的两侧都有切齐，则会套用预设的对齐方式（在大多数情况下，这将会是靠左对齐）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;表格底下必须接着一个空白行，或是一行虚线后再一个空白行。表格标题为可选的（上面的范例中有出现）。标题需是一个以 &lt;code&gt;Table:&lt;/code&gt; （或单纯只有 &lt;code&gt;:&lt;/code&gt;）开头作为前缀的段落，输出时前缀的这部份会被去除掉。表格标题可以放在表格之前或之后。&lt;/p&gt;
+&lt;p&gt;表头也可以省略，在省略表头的情况下，表格下方必须加上一行虚线以清楚标明表格的范围。例如：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;-------     ------ ----------   -------
+     12     12        12             12
+    123     123       123           123
+      1     1          1              1
+-------     ------ ----------   -------
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;当省略表头时，直行的对齐会以表格内容的第一行资料列决定。所以，以上面的表格为例，各直行的对齐依序会是靠右、靠左、置中以及靠右对齐。&lt;/p&gt;
+&lt;h3&gt;多行表格&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;multiline_tables&lt;/code&gt;, &lt;code&gt;table_captions&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;多行表格允许表头与表格资料格的文字能以复数行呈现（但不支援横跨多栏或纵跨多列的资料格）。以下为范例：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;-------------------------------------------------------------
+ Centered   Default           Right Left
+  Header    Aligned         Aligned Aligned
+----------- ------- --------------- -------------------------
+   First    row                12.0 Example of a row that
+                                    spans multiple lines.
+
+  Second    row                 5.0 Here's another one. Note
+                                    the blank line between
+                                    rows.
+-------------------------------------------------------------
+
+Table: Here's the caption. It, too, may span
+multiple lines.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;看起来很像简单表格，但两者间有以下差别：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在表头文字之前，必须以一列虚线作为开头（除非有省略表头）。&lt;/li&gt;
+&lt;li&gt;必须以一列虚线作为表格结尾，之后接一个空白行。&lt;/li&gt;
+&lt;li&gt;资料列与资料列之间以空白行隔开。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在多行表格中，表格分析器会计算各直行的栏宽，并在输出时尽可能维持各直行在原始文件中的相对比例。因此，要是你觉得某些栏位在输出时不够宽，你可以在 markdown 的原始档中加宽一点。&lt;/p&gt;
+&lt;p&gt;和简单表格一样，表头在多行表格中也是可以省略的：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;----------- ------- --------------- -------------------------
+   First    row                12.0 Example of a row that
+                                    spans multiple lines.
+
+  Second    row                 5.0 Here's another one. Note
+                                    the blank line between
+                                    rows.
+----------- ------- --------------- -------------------------
+
+: Here's a multiline table without headers.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;多行表格中可以单只包含一个资料列，但该资料列之后必须接着一个空白行（然后才是标示表格结尾的一行虚线）。如果没有此空白行，此表格将会被解读成简单表格。&lt;/p&gt;
+&lt;h3&gt;格框表格&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;grid_tables&lt;/code&gt;, &lt;code&gt;table_captions&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;格框表格看起来像这样：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;: Sample grid table.
+
++---------------+---------------+--------------------+
+| Fruit         | Price         | Advantages         |
++===============+===============+====================+
+| Bananas       | $1.34         | - built-in wrapper |
+|               |               | - bright color     |
++---------------+---------------+--------------------+
+| Oranges       | $2.10         | - cures scurvy     |
+|               |               | - tasty            |
++---------------+---------------+--------------------+
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;以 &lt;code&gt;=&lt;/code&gt; 串成的一行区分了表头与表格本体，这在没有表头的表格中也是可以省略的。在格框表格中的资料格可以包含任意的区块元素（复数段落、代码区块、清单等等）。不支援对齐，也不支援横跨多栏或纵跨多列的资料格。格框表格可以在 &lt;a href="http://table.sourceforge.net/"&gt;Emacs table mode&lt;/a&gt; 下轻松建立。&lt;/p&gt;
+&lt;h3&gt;管线表格&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;pipe_tables&lt;/code&gt;, &lt;code&gt;table_captions&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;管线表格看起来像这样：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;Right&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;Left&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;Default&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nv"&gt;Center&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="s-Atom"&gt;------:&lt;/span&gt;&lt;span class="p"&gt;|:-&lt;/span&gt;&lt;span class="s-Atom"&gt;----&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="s-Atom"&gt;---------&lt;/span&gt;&lt;span class="p"&gt;|:-&lt;/span&gt;&lt;span class="s-Atom"&gt;-----:&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt;   &lt;span class="mi"&gt;12&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;  &lt;span class="mi"&gt;12&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;    &lt;span class="mi"&gt;12&lt;/span&gt;   &lt;span class="p"&gt;|&lt;/span&gt;    &lt;span class="mi"&gt;12&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt;  &lt;span class="mi"&gt;123&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;  &lt;span class="mi"&gt;123&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;   &lt;span class="mi"&gt;123&lt;/span&gt;   &lt;span class="p"&gt;|&lt;/span&gt;   &lt;span class="mi"&gt;123&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt;    &lt;span class="mi"&gt;1&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;    &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;     &lt;span class="mi"&gt;1&lt;/span&gt;   &lt;span class="p"&gt;|&lt;/span&gt;     &lt;span class="mi"&gt;1&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;
+
+  &lt;span class="s-Atom"&gt;:&lt;/span&gt; &lt;span class="nv"&gt;Demonstration&lt;/span&gt; &lt;span class="s-Atom"&gt;of&lt;/span&gt; &lt;span class="s-Atom"&gt;simple&lt;/span&gt; &lt;span class="s-Atom"&gt;table&lt;/span&gt; &lt;span class="s-Atom"&gt;syntax&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这个语法与 &lt;a href=""&gt;PHP markdown extra 中的表格语法&lt;/a&gt; 相同。开始与结尾的管线字元是可选的，但各直行间则必须以管线区隔。上面范例中的冒号表明了对齐方式。表头可以省略，但表头下的水平虚线必须保留，因为虚线上定义了资料栏的对齐方式。&lt;/p&gt;
+&lt;p&gt;因为管线界定了各栏之间的边界，表格的原始码并不需要像上面例子中各栏之间保持直行对齐。所以，底下一样是个完全合法（虽然丑陋）的管线表格：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;fruit| price
+-----|-----:
+apple|2.05
+pear|1.37
+orange|3.09
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;管线表格的资料格不能包含如段落、清单之类的区块元素，也不能包含复数行文字。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;http://michelf.ca/projects/php-markdown/extra/#table
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;注意：Pandoc 也可以看得懂以下形式的管线表格，这是由 Emacs 的 orgtbl-mod 所绘制：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;| One | Two   |
+|-----+-------|
+| my  | table |
+| is  | nice  |
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;主要的差别在于以 &lt;code&gt;+&lt;/code&gt; 取代了部分的 &lt;code&gt;|&lt;/code&gt;。其他的 orgtbl 功能并未支援。如果要指定非预设的直行对齐形式，你仍然需要在上面的表格中自行加入冒号。&lt;/p&gt;
+&lt;h2&gt;文件标题区块&lt;/h2&gt;
+&lt;p&gt;（译注：本节中提到的「标题」均指 Title，而非 Headers）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;pandoc_title_block&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果档案以文件标题（Title）区块开头&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;% title&lt;/span&gt;
+&lt;span class="c"&gt;% author(s) (separated by semicolons)&lt;/span&gt;
+&lt;span class="c"&gt;% date&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这部份将不会作为一般文字处理，而会以书目资讯的方式解析。（这可用在像是单一 LaTeX 或是 HTML 输出文件的书名上。）这个区块仅能包含标题，或是标题与作者，或是标题、作者与日期。如果你只想包含作者却不想包含标题，或是只有标题与日期而没有作者，你得利用空白行：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;%&lt;/span&gt;
+&lt;span class="c"&gt;% Author&lt;/span&gt;
+
+&lt;span class="c"&gt;% My title&lt;/span&gt;
+&lt;span class="c"&gt;%&lt;/span&gt;
+&lt;span class="c"&gt;% June 15, 2006&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;标题可以包含多行文字，但接续行必须以空白字元开头，像是：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;% My title&lt;/span&gt;
+  &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;multiple&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果文件有多个作者，作者也可以分列在不同行并以空白字元作开头，或是以分号间隔，或是两者并行。所以，下列各种写法得到的结果都是相同的：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;% Author One&lt;/span&gt;
+  &lt;span class="n"&gt;Author&lt;/span&gt; &lt;span class="n"&gt;Two&lt;/span&gt;
+
+&lt;span class="c"&gt;% Author One; Author Two&lt;/span&gt;
+
+&lt;span class="c"&gt;% Author One;&lt;/span&gt;
+  &lt;span class="n"&gt;Author&lt;/span&gt; &lt;span class="n"&gt;Two&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;日期就只能写在一行之内。&lt;/p&gt;
+&lt;p&gt;所有这三个 metadata 栏位都可以包含标准的行内格式（斜体、连结、脚注等等）。&lt;/p&gt;
+&lt;p&gt;文件标题区块一定会被分析处理，但只有在 &lt;code&gt;--standaline&lt;/code&gt; (&lt;code&gt;-s&lt;/code&gt;) 选项被设定时才会影响输出内容。在输出 HTML 时，文件标题会出现的地方有两个：一个是在文件的 &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; 区块里－－这会显示在浏览器的视窗标题上－－另外一个是文件的 &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; 区块最前面。位于 &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; 里的文件标题可以选择性地加上前缀文字（透过 &lt;code&gt;--title-prefix&lt;/code&gt; 或 &lt;code&gt;-T&lt;/code&gt; 选项）。而在 &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; 里的文件标题会以 H1 元素呈现，并附带 "title" 类别 (class)，这样就能借由 CSS 来隐藏显示或重新定义格式。如果以 &lt;code&gt;-T&lt;/code&gt; 选项指定了标题前缀文字，却没有设定文件标题区块里的标题，那么前缀文字本身就会被当作是 HTML 的文件标题。&lt;/p&gt;
+&lt;p&gt;而 man page 的输出器会分析文件标题区块的标题行，以解出标题、man page section number，以及其他页眉 (header) 页脚 (footer) 所需要的资讯。一般会假设标题行的第一个单字为标题，标题后也许会紧接着一个以括号包住的单一数字，代表 section number（标题与括号之间没有空白）。在此之后的其他文字则为页脚与页眉文字。页脚与页眉文字之间是以单独的一个管线符号 (&lt;code&gt;|&lt;/code&gt;) 作为区隔。所以，&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;% PANDOC(1)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;将会产生一份标题为 &lt;code&gt;PANDOC&lt;/code&gt; 且 section 为 1 的 man page。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;% PANDOC(1) Pandoc User Manuals&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;产生的 man page 会再加上 "Pandoc User Manuals" 在页脚处。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;% PANDOC(1) Pandoc User Manuals | Version 4.0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;产生的 man page 会再加上 "Version 4.0" 在页眉处。&lt;/p&gt;
+&lt;h2&gt;反斜线跳脱字元&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;all_symbols_escapable&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;除了在代码区块或行内代码之外，任何标点符号或空白字元前面只要加上一个反斜线，都能使其保留字面原义，而不会进行格式的转义解读。因此，举例来说，下面的写法&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;*\*hello\**
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;输出后会得到&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;em&amp;gt;&lt;/span&gt;*hello*&lt;span class="nt"&gt;&amp;lt;/em&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;而不是&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;strong&amp;gt;&lt;/span&gt;hello&lt;span class="nt"&gt;&amp;lt;/strong&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这条规则比原始的 markdown 规则来得好记许多，原始规则中，只有以下字元才有支援反斜线跳脱，不作进一步转义：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;\`*_{}[]()&amp;gt;#+-.!
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;（然而，如果使用了 &lt;code&gt;markdown_strict&lt;/code&gt; 格式，那么就会采用原始的 markdown 规则）&lt;/p&gt;
+&lt;p&gt;一个反斜线之后的空白字元会被解释为不断行的空白 (nonbreaking space)。这在 TeX 的输出中会显示为 &lt;code&gt;~&lt;/code&gt;，而在 HTML 与 XML 则是显示为 &lt;code&gt;\&amp;amp;#160;&lt;/code&gt; 或 &lt;code&gt;\&amp;amp;nbsp;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;一个反斜线之后的换行字元（例如反斜线符号出现在一行的最尾端）则会被解释为强制换行。这在 TeX 的输出中会显示为 &lt;code&gt;\\&lt;/code&gt;，而在 HTML 里则是 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt;。相对于原始 markdown 是以在行尾加上两个空白字元这种「看不见」的方式进行强制换行，反斜线接换行字元会是比较好的替代方案。&lt;/p&gt;
+&lt;p&gt;反斜线跳脱字元在代码上下文中不起任何作用。&lt;/p&gt;
+&lt;h2&gt;智慧型标点符号&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果指定了 &lt;code&gt;--smart&lt;/code&gt; 选项，pandoc 将会输出正式印刷用的标点符号，像是将 straight quotes 转换为 curly quotes&lt;sup id="fnref:T1"&gt;&lt;a class="footnote-ref" href="#fn:T1" rel="footnote"&gt;4&lt;/a&gt;&lt;/sup&gt;、&lt;code&gt;---&lt;/code&gt; 转为破折号 (em-dashes)，&lt;code&gt;--&lt;/code&gt; 转为连接号 (en-dashes)，以及将 &lt;code&gt;...&lt;/code&gt; 转为删节号。不断行空格 (Nonbreaking spaces) 将会插入某些缩写词之后，例如 "Mr."。&lt;/p&gt;
+&lt;p&gt;注意：如果你的 LaTeX template 使用了 &lt;code&gt;csquotes&lt;/code&gt; 套件，pandoc 会自动侦测并且使用 &lt;code&gt;\enquote{...}&lt;/code&gt; 在引言文字上。&lt;/p&gt;
+&lt;h2&gt;行内格式&lt;/h2&gt;
+&lt;h3&gt;强调&lt;/h3&gt;
+&lt;p&gt;要 &lt;em&gt;强调&lt;/em&gt; 某些文字，只要以 &lt;code&gt;*&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 符号前后包住即可，像这样：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;This text is _emphasized with underscores_, and this
+is *emphasized with asterisks*.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;重复两个 &lt;code&gt;*&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 符号以产生 &lt;strong&gt;更强烈的强调&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;This is **strong emphasis** and __with underscores__.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;一个前后以空白字元包住，或是前面加上反斜线的 &lt;code&gt;*&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 符号，都不会转换为强调格式：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;This is * not emphasized *, and \*neither is this\*.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;intraword_underscores&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;因为 &lt;code&gt;_&lt;/code&gt; 字元有时会使用在单字或是 ID 之中，所以 pandoc 不会把被字母包住的 &lt;code&gt;_&lt;/code&gt; 解读为强调标记。如果有需要特别强调单字中的一部分，就用 &lt;code&gt;*&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;feas*ible*, not feas*able*.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;删除线&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension:  &lt;code&gt;strikeout&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;要将一段文字加上水平线作为删除效果，将该段文字前后以 &lt;code&gt;~~&lt;/code&gt; 包住即可。例如，&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;This ~~is deleted text.~~
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;上标与下标&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;superscript&lt;/code&gt;, &lt;code&gt;subscript&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;要输入上标可以用 &lt;code&gt;^&lt;/code&gt; 字元将要上标的文字包起来；要输入下标可以用 &lt;code&gt;~&lt;/code&gt; 字元将要下标的文字包起来。直接看范例，&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;H~2~O is a liquid.  2^10^ is 1024.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果要上标或下标的文字中包含了空白，那么这个空白字元之前必须加上反斜线。（这是为了避免一般使用下的 &lt;code&gt;~&lt;/code&gt; 和 &lt;code&gt;^&lt;/code&gt; 在非预期的情况下产生出意外的上标或下标。）所以，如果你想要让字母 P 后面跟着下标文字 'a cat'，那么就要输入 &lt;code&gt;P~a\ cat~&lt;/code&gt;，而不是 &lt;code&gt;P~a cat~&lt;/code&gt;。&lt;/p&gt;
+&lt;h3&gt;字面文字&lt;/h3&gt;
+&lt;p&gt;要让一小段文字直接以其字面形式呈现，可以用反引号将其包住：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;What is the difference between `&amp;gt;&amp;gt;=` and `&amp;gt;&amp;gt;`?
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果字面文字中也包含了反引号，那就使用双重反引号包住：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;Here is a literal backtick `` ` ``.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;（在起始反引号后的空白以及结束反引号前的空白都会被忽略。）&lt;/p&gt;
+&lt;p&gt;一般性的规则如下，字面文字区段是以连续的反引号字元作为开始（反引号后的空白字元为可选），一直到同样数目的反引号字元出现才结束（反引号前的空白字元也为可选）。&lt;/p&gt;
+&lt;p&gt;要注意的是，反斜线跳脱字元（以及其他 markdown 结构）在字面文字的上下文中是没有效果的：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;This is a backslash followed by an asterisk: `\*`.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;inline_code_attributes&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;与[围栏代码区块]一样，字面文字也可以附加属性：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;`&amp;lt;$&amp;gt;`{.haskell}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;数学&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;tex_math_dollars&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;所有介于两个 &lt;code&gt;$&lt;/code&gt; 字元之间的内容将会被视为 TeX 数学公式处理。开头的 &lt;code&gt;$&lt;/code&gt; 右侧必须立刻接上任意文字，而结尾 &lt;code&gt;$&lt;/code&gt; 的左侧同样也必须紧挨着文字。这样一来，&lt;code&gt;$20,000 and $30,000&lt;/code&gt; 就不会被当作数学公式处理了。如果基于某些原因，有必须使用 &lt;code&gt;$&lt;/code&gt; 符号将其他文字括住的需求时，那么可以在 &lt;code&gt;$&lt;/code&gt; 前使用反斜线跳脱字元，这样 &lt;code&gt;$&lt;/code&gt; 就不会被当作数学公式的分隔符。&lt;/p&gt;
+&lt;p&gt;TeX 数学公式会在所有输出格式中印出。至于会以什么方式演算编排 (render) 则取决于输出的格式：&lt;/p&gt;
+&lt;p&gt;Markdown, LaTeX, Org-Mode, ConTeXt
+  ~ 公式会以字面文字呈现在两个 &lt;code&gt;$&lt;/code&gt; 符号之间。&lt;/p&gt;
+&lt;p&gt;reStructuredText
+  ~ 公式会使用 &lt;a href="http://www.american.edu/econ/itex2mml/mathhack.rst"&gt;此处&lt;/a&gt; 所描述的 &lt;code&gt;:math:&lt;/code&gt; 这个 "interpreted text role" 来进行演算编排。&lt;/p&gt;
+&lt;p&gt;AsciiDoc
+  ~ 公式会以 &lt;code&gt;latexmath:[...]&lt;/code&gt; 演算编排。&lt;/p&gt;
+&lt;p&gt;Texinfo
+  ~ 公式会在 &lt;code&gt;@math&lt;/code&gt; 指令中演算编排。&lt;/p&gt;
+&lt;p&gt;groff man
+  ~ 公式会以去掉 &lt;code&gt;$&lt;/code&gt; 后的字面文字演算编排。&lt;/p&gt;
+&lt;p&gt;MediaWiki
+  ~ 公式会在 &lt;code&gt;&amp;lt;math&amp;gt;&lt;/code&gt; 标签中演算编排。&lt;/p&gt;
+&lt;p&gt;Textile
+  ~ 公式会在 &lt;code&gt;&amp;lt;span class="math"&amp;gt;&lt;/code&gt; 标签中演算编排。&lt;/p&gt;
+&lt;p&gt;RTF, OpenDocument, ODT
+  ~ 如果可以的话，公式会以 unicode 字元演算编排，不然就直接使用字面字元。&lt;/p&gt;
+&lt;p&gt;Docbook
+  ~ 如果使用了 &lt;code&gt;--mathml&lt;/code&gt; 旗标，公式就会在 &lt;code&gt;inlineequation&lt;/code&gt; 或 &lt;code&gt;informalequation&lt;/code&gt; 标签中使用 mathml 演算编排。否则就会尽可能使用 unicode 字元演算编排。&lt;/p&gt;
+&lt;p&gt;Docx
+  ~ 公式会以 OMML 数学标记的方式演算编排。&lt;/p&gt;
+&lt;p&gt;FictionBook2
+  ~ 如果有使用 &lt;code&gt;--webtex&lt;/code&gt; 选项，公式会以 Google Charts 或其他相容的网路服务演算编排为图片，并下载嵌入于电子书中。否则就会以字面文字显示。&lt;/p&gt;
+&lt;p&gt;HTML, Slidy, DZSlides, S5, EPUB
+  ~ 公式会依照以下命令列选项的设置，以不同的方法演算编排为 HTML 代码。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;1.  预设方式是将 TeX 数学公式尽可能地以 unicode 字元演算编排，如同 RTF、DocBook 以及 OpenDocument 的输出。公式会被放在附有属性 `class="math"` 的 `span` 标签内，所以可以在需要时给予不同的样式，使其突出于周遭的文字内容。
+
+2.  如果使用了 `--latexmathml` 选项，TeX 数学公式会被显示于 `$` 或 `$$` 字元中，并放在附带 `LaTeX` 类别的 `&amp;lt;span&amp;gt;` 标签里。这段内容会用 [LaTeXMathML] script 演算编排为数学公式。（这个方法无法适用于所有浏览器，但在 Firefox 中是有效的。在不支援 LaTeXMathML 的浏览器中，TeX 数学公式会单纯的以两个 `$` 字元间的字面文字呈现。）
+
+3.  如果使用了 `--jsmath` 选项，TeX数学公式会放在 `&amp;lt;span&amp;gt;` 标签（用于行内数学公式）或 `&amp;lt;div&amp;gt;` 标签（用于区块数学公式）中，并附带类别属性 `math`。这段内容会使用 [jsMath] script 来演算编排。
+
+4.  如果使用了 `--mimetex` 选项，[mimeTeX] CGI script 会被呼叫来产生每个 TeX 数学公式的图片。这适用于所有浏览器。`--mimetex` 选项有一个可选的 URL 参数。如果没有指定 URL，它会假设 mimeTeX CGI script 的位置在 `/cgi-bin/mimetex.cig`。
+
+5.  如果使用了 `--gladtex` 选项，TeX 数学公式在 HTML 的输出中会被 `&amp;lt;eq&amp;gt;` 标签包住。产生的 `htex` 档案之后可以透过 [gladTeX] 处理，这会针对每个数学公式生成图片，并于最后生成一个包含这些图片连结的 `html` 档案。所以，整个处理流程如下：
+
+        pandoc -s --gladtex myfile.txt -o myfile.htex
+        gladtex -d myfile-images myfile.htex
+        # produces myfile.html and images in myfile-images
+
+6.  如果使用了 `--webtex` 选项，TeX 数学公式会被转换为 `&amp;lt;img&amp;gt;` 标签并连结到一个用以转换公式为图片的外部 script。公式将会编码为 URL 可接受格式并且与指定的 URL 参数串接。如果没有指定 URL，那么将会使用 Google Chart API (`http://chart.apis.google.com/chart?cht=tx&amp;amp;chl=`)。
+
+7.  如果使用了 `--mathjax` 选项，TeX 数学公式将会被包在 `\(...\)`（用于行内数学公式）或 `\[...\]`（用于区块数学公式）之间显示，并且放在附带类别 `math` 的 `&amp;lt;span&amp;gt;` 标签之中。这段内容会使用 [MathJax] script 演算编排为页面上的数学公式。
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Raw HTML&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;raw_html&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Markdown 允许你在文件中的任何地方插入原始 HTML（或 DocBook）指令（除了在字面文字上下文处，此时的 &lt;code&gt;&amp;lt;&lt;/code&gt;, &lt;code&gt;&amp;gt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;&lt;/code&gt; 都会按其字面意义显示）。（技术上而言这不算扩充功能，因为原始 markdown 本身就有提供此功能，但做成扩充形式便可以在有特殊需要的时候关闭此功能。）&lt;/p&gt;
+&lt;p&gt;输出 HTML, S5, Slidy, Slideous, DZSlides, EPUB, Markdown 以及 Textile 等格式时，原始 HTML 代码会不作修改地保留至输出档案中；而其他格式的输出内容则会将原始 HTML 代码去除掉。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;markdown_in_html_blocks&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;原始 markdown 允许你插入 HTML「区块」：所谓的 HTML 区块是指，上下各由一个空白行所隔开，开始与结尾均由所在行最左侧开始的一连串对称均衡的 HTML 标签。在这个区块中，任何内容都会当作是 HTML 来分析，而不再视为 markdown；所以（举例来说），&lt;code&gt;*&lt;/code&gt; 符号就不再代表强调。&lt;/p&gt;
+&lt;p&gt;当指定格式为 &lt;code&gt;markdown_strict&lt;/code&gt; 时，Pandoc 会以上述方式处理；但预设情况下，Pandoc 能够以 markdown 语法解读 HTML 区块标签中的内容。举例说明，Pandoc 能够将底下这段&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;table&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;tr&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;td&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;*&lt;/span&gt;&lt;span class="n"&gt;one&lt;/span&gt;&lt;span class="o"&gt;*&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;td&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;td&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="nl"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//google.com)&amp;lt;/td&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;tr&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;table&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;转换为&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;table&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;td&amp;gt;&amp;lt;em&amp;gt;&lt;/span&gt;one&lt;span class="nt"&gt;&amp;lt;/em&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;"http://google.com"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;a link&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;而 &lt;code&gt;Markdown.pl&lt;/code&gt; 则是保留该段原样。&lt;/p&gt;
+&lt;p&gt;这个规则只有一个例外：那就是介于 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 与 &lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt; 之间的文字都不会被拿来当作 markdown 解读。&lt;/p&gt;
+&lt;p&gt;这边与原始 markdown 的分歧，主要是为了让 markdown 能够更便利地混入 HTML 区块元素。比方说，一段 markdown 文字可以用 &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; 标签将其前后包住来进行样式指定，而不用担心里面的 markdown 不会被解译到。&lt;/p&gt;
+&lt;h2&gt;Raw TeX&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;raw_tex&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;除了 HTML 之外，pandoc 也接受文件中嵌入原始 LaTeX, TeX 以及 ConTeXt 代码。行内 TeX 指令会被保留并不作修改地输出至 LaTeX 与 ConTeXt 格式中。所以，举例来说，你可以使用 LaTeX 来导入 BibTeX 的引用文献：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;This result was proved in \cite{jones.1967}.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;请注意在 LaTeX 环境下时，像是底下&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;\begin{tabular}{|l|l|}\hline
+Age &amp;amp; Frequency \\ \hline
+18--25  &amp;amp; 15 \\
+26--35  &amp;amp; 33 \\
+36--45  &amp;amp; 22 \\ \hline
+\end{tabular}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;位在 &lt;code&gt;begin&lt;/code&gt; 与 &lt;code&gt;end&lt;/code&gt; 标签之间的内容，都会被当作是原始 LaTeX 资料解读，而不会视为 markdown。&lt;/p&gt;
+&lt;p&gt;行内 LaTeX 在输出至 Markdown, LaTeX 及 ConTeXt 之外的格式时会被忽略掉。&lt;/p&gt;
+&lt;h2&gt;LaTeX 巨集&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;latex_macros&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;当输出格式不是 LaTeX 时，pandoc 会分析 LaTeX 的 &lt;code&gt;\newcommand&lt;/code&gt; 和 &lt;code&gt;\renewcommand&lt;/code&gt; 定义，并套用其产生的巨集到所有 LaTeX 数学公式中。所以，举例来说，下列指令对于所有的输出格式均有作用，而非仅仅作用于 LaTeX 格式： &lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;\newcommand{\tuple}[1]{\langle #1 \rangle}
+
+$\tuple{a, b, c}$
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在 LaTeX 的输出中，&lt;code&gt;\newcommand&lt;/code&gt; 定义会单纯不作修改地保留至输出结果。&lt;/p&gt;
+&lt;h2&gt;连结&lt;/h2&gt;
+&lt;p&gt;Markdown 接受以下数种指定连结的方式。&lt;/p&gt;
+&lt;h3&gt;自动连结&lt;/h3&gt;
+&lt;p&gt;如果你用角括号将一段 URL 或是 email 位址包起来，它会自动转换成连结：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&amp;lt;http://google.com&amp;gt;
+&amp;lt;sam@green.eggs.ham&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;行内连结&lt;/h3&gt;
+&lt;p&gt;一个行内连结包含了位在方括号中的连结文字，以及方括号后以圆括号包起来的 URL。（你可以选择性地在 URL 后面加入连结标题，标题文字要放在引号之中。）&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="kr"&gt;inline&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="err"&gt;'&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="nl"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//fsf.org "click here for a good time!").&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;方括号与圆括号之间不能有空白。连结文字可以包含格式（例如强调），但连结标题则否。&lt;/p&gt;
+&lt;h3&gt;参考连结&lt;/h3&gt;
+&lt;p&gt;一个 &lt;strong&gt;明确&lt;/strong&gt; 的参考连结包含两个部分，连结本身以及连结定义，其中连结定义可以放在文件的任何地方（不论是放在连结所在处之前或之后）。&lt;/p&gt;
+&lt;p&gt;连结本身是由两组方括号所组成，第一组方括号中为连结文字，第二组为连结标签。（在两个方括号间可以有空白。）连结定义则是以方括号框住的连结标签作开头，后面跟着一个冒号一个空白，再接着一个 URL，最后可以选择性地（在一个空白之后）加入由引号或是圆括号包住的连结标题。&lt;/p&gt;
+&lt;p&gt;以下是一些范例：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;[my label 1]: /foo/bar.html  "My title, optional"
+[my label 2]: /foo
+[my label 3]: http://fsf.org (The free software foundation)
+[my label 4]: /bar#special  'A title in single quotes'
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;连结的 URL 也可以选择性地以角括号包住：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;[my label 5]: &amp;lt;http://foo.bar.baz&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;连结标题可以放在第二行：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;[my label 3]: http://fsf.org
+  "The free software foundation"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;需注意连结标签并不区分大小写。所以下面的例子会建立合法的连结：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;Here&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;FOO&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Foo&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bar&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;baz&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在一个 &lt;strong&gt;隐性&lt;/strong&gt; 参考连结中，第二组方括号的内容是空的，甚至可以完全地略去：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;See&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt; &lt;span class="n"&gt;website&lt;/span&gt;&lt;span class="p"&gt;][],&lt;/span&gt; &lt;span class="n"&gt;or&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt; &lt;span class="n"&gt;website&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt; &lt;span class="n"&gt;website&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//foo.bar.baz&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;注意：在 &lt;code&gt;Markdown.pl&lt;/code&gt; 以及大多数其他 markdown 实作中，参考连结的定义不能存在于嵌套结构中，例如清单项目或是区块引言。Pandoc lifts this arbitrary seeming restriction。所以虽然下面的语法在几乎所有其他实作中都是错误的，但在 pandoc 中可以正确处理：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&amp;gt; My block [quote].
+&amp;gt;
+&amp;gt; [quote]: /foo
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;内部连结&lt;/h3&gt;
+&lt;p&gt;要连结到同一份文件的其他章节，可使用自动产生的 ID（参见 [HTML, LaTeX 与 ConTeXt 的标题识别符] 一节后半）。例如：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;See the [Introduction](#introduction).
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;或是&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;See the [Introduction].
+
+[Introduction]: #introduction
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;内部连结目前支援的格式有 HTML（包括 HTML slide shows 与 EPUB）、LaTeX 以及 ConTeXt。&lt;/p&gt;
+&lt;h2&gt;图片&lt;/h2&gt;
+&lt;p&gt;在连结语法的前面加上一个 &lt;code&gt;!&lt;/code&gt; 就是图片的语法了。连结文字将会作为图片的替代文字（alt text）：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;la&lt;/span&gt; &lt;span class="n"&gt;lune&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;lalune&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;jpg&lt;/span&gt; &lt;span class="s"&gt;"Voyage to the moon"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;movie&lt;/span&gt; &lt;span class="n"&gt;reel&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;movie&lt;/span&gt; &lt;span class="n"&gt;reel&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;movie&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gif&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;附上说明的图片&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;implicit_figures&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;一个图片若自身单独存在一个段落中，那么将会以附上图片说明 (caption) 的图表 (figure) 形式呈现。&lt;sup id="fnref:5"&gt;&lt;a class="footnote-ref" href="#fn:5" rel="footnote"&gt;5&lt;/a&gt;&lt;/sup&gt;（在 LaTeX 中，会使用图表环境；在 HTML 中，图片会被放在具有 &lt;code&gt;figure&lt;/code&gt; 类别的 &lt;code&gt;div&lt;/code&gt; 元素中，并会附上一个具有 &lt;code&gt;caption&lt;/code&gt; 类别的 &lt;code&gt;p&lt;/code&gt; 元素。）图片的替代文字同时也会用来作为图片说明。&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;![This is the caption](/url/of/image.png)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果你只是想要个一般的行内图片，那么只要让图片不是段落里唯一的元素即可。一个简单的方法是在图片后面插入一个不断行空格：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;![This image won't be a figure](/url/of/image.png)\
+&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;脚注&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;footnotes&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Pandoc's markdown 支援脚注功能，使用以下的语法：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;Here is a footnote reference,[^1] and another.[^longnote]
+
+[^1]: Here is the footnote.
+
+[^longnote]: Here's one with multiple blocks.
+
+    Subsequent paragraphs are indented to show that they
+belong to the previous footnote.
+
+        { some.code }
+
+    The whole paragraph can be indented, or just the first
+    line.  In this way, multi-paragraph footnotes work like
+    multi-paragraph list items.
+
+This paragraph won't be part of the note, because it
+isn't indented.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;脚注参考用的 ID 不得包含空白、tabs 或换行字元。这些 ID 只会用来建立脚注位置与脚注文字的对应关连；在输出时，脚注将会依序递增编号。&lt;/p&gt;
+&lt;p&gt;脚注本身不需要放在文件的最后面。它们可以放在文件里的任何地方，但不能被放入区块元素（清单、区块引言、表格等）之中。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;inline_notes&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Pandoc 也支援了行内脚注（尽管，与一般脚注不同，行内脚注不能包含多个段落）。其语法如下：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;Here is an inline note.^[Inlines notes are easier to write, since
+you don't have to pick an identifier and move down to type the
+note.]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;行内与一般脚注可以自由交错使用。&lt;/p&gt;
+&lt;h2&gt;引用&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;citations&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Pandoc 能够以数种形式自动产生引用与参考书目（使用 Andrea Rossato 的 &lt;code&gt;hs-citeproc&lt;/code&gt;）。为了使用这项功能，你需要一个下列其中一种格式的参考书目资料库：&lt;/p&gt;
+&lt;p&gt;Format            File extension
+  ------------      --------------
+  MODS              .mods
+  BibLaTeX          .bib
+  BibTeX            .bibtex
+  RIS               .ris
+  EndNote           .enl
+  EndNote XML       .xml
+  ISI               .wos
+  MEDLINE           .medline
+  Copac             .copac
+  JSON citeproc     .json&lt;/p&gt;
+&lt;p&gt;需注意的是副档名 &lt;code&gt;.bib&lt;/code&gt; 一般而言同时适用于 BibTeX 与 BibLaTeX 的档案，不过你可以使用 &lt;code&gt;.bibtex&lt;/code&gt; 来强制指定 BibTeX。&lt;/p&gt;
+&lt;p&gt;你需要使用命令列选项 &lt;code&gt;--bibliography&lt;/code&gt; 来指定参考书目档案（如果有多个书目档就得反复指定）。&lt;/p&gt;
+&lt;p&gt;预设情况下，pandoc 会在引用文献与参考书目中使用芝加哥「作者－日期」格式。要使用其他的格式，你需要用 &lt;code&gt;--csl&lt;/code&gt; 选项来指定一个 &lt;a href="http://CitationStyles.org"&gt;CSL&lt;/a&gt; 1.0 格式的档案。关于建立与修改 CSL 格式的入门可以在 &lt;a href="http://citationstyles.org/downloads/primer.html"&gt;http://citationstyles.org/downloads/primer.html&lt;/a&gt; 这边找到。&lt;a href="https://github.com/citation-style-language/styles"&gt;https://github.com/citation-style-language/styles&lt;/a&gt; 是 CSL 格式的档案库。也可以在 &lt;a href="http://zotero.org/styles"&gt;http://zotero.org/styles&lt;/a&gt; 以简单的方式浏览。&lt;/p&gt;
+&lt;p&gt;引用资讯放在方括号中，以分号区隔。每一条引用都会有个 key，由 &lt;code&gt;@&lt;/code&gt; 加上资料库中的引用 ID 组成，并且可以选择性地包含前缀、定位以及后缀。以下是一些范例：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;Blah blah [see @doe99, pp. 33-35; also @smith04, ch. 1].
+
+Blah blah [@doe99, pp. 33-35, 38-39 and *passim*].
+
+Blah blah [@smith04; @doe99].
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在 &lt;code&gt;@&lt;/code&gt; 前面的减号 (&lt;code&gt;-&lt;/code&gt;) 将会避免作者名字在引用中出现。这可以用在已经提及作者的文章场合中：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;Smith says blah [-@smith04].
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;你也可以在文字中直接插入引用资讯，方式如下：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;@smith04 says blah.
+
+@smith04 [p. 33] says blah.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果引用格式档需要产生一份引用作品的清单，这份清单会被放在文件的最后面。一般而言，你需要以一个适当的标题结束你的文件：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;last paragraph...
+
+# References
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如此一来参考书目就会被放在这个标题后面了。&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr/&gt;
+&lt;ol&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;之所以有这条规则，主要是要避免以人名头文字缩写作为开头的段落所带来的混淆，像是&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;B. Russell was an English philosopher.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样就不会被当作清单项目了。&lt;/p&gt;
+&lt;p&gt;这条规则并不会避免以下&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;(C) 2007 Joe Smith
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样的叙述被解释成清单项目。在这情形下，可以使用反斜线：&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;(C\) 2007 Joe Smith
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 1 in the text"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;&lt;a href="http://www.justatheory.com/computers/markup/modest-markdown-proposal.html"&gt;David Wheeler&lt;/a&gt; 对于 markdown 的建议也同时影响了我。 &lt;a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 2 in the text"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:4"&gt;
+&lt;p&gt;这个方案是由 Michel Fortin 在 &lt;a href="http://six.pairlist.net/pipermail/markdown-discuss/2005-March/001097.html"&gt;Markdown discussion list&lt;/a&gt; 的讨论中所提出。 &lt;a class="footnote-backref" href="#fnref:4" rev="footnote" title="Jump back to footnote 3 in the text"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:T1"&gt;
+&lt;p&gt;译注：straight quotes 指的是左右两侧都长得一样的引号，例如我们直接在键盘上打出来的单引号或双引号；curly quotes 则是左右两侧不同，有从两侧向内包夹视觉效果的引号。 &lt;a class="footnote-backref" href="#fnref:T1" rev="footnote" title="Jump back to footnote 4 in the text"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:5"&gt;
+&lt;p&gt;这项功能尚未在 RTF, OpenDocument 或 ODT 格式上实现。在这些格式中，你会得到一个在段落中只包含自己的图片，而无图片说明。 &lt;a class="footnote-backref" href="#fnref:5" rev="footnote" title="Jump back to footnote 5 in the text"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="Pandoc"></category><category term="Markdown"></category></entry><entry><title>代码高亮测试</title><link href="http://elvisw.com/code-test.html" rel="alternate"></link><updated>2015-02-03T19:30:00+08:00</updated><author><name>Elvis Wang</name></author><id>tag:elvisw.com,2015-02-03:code-test.html</id><summary type="html">&lt;p&gt;下面是Python代码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;decorator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="nd"&gt;@functools.wraps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;wrapper&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kw&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;'&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt; &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt;():'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kw&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;wrapper&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;decorator&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br/&gt; &lt;br/&gt;
+下面是C++代码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// !!! Qt 5&lt;/span&gt;
+&lt;span class="cp"&gt;#include &amp;lt;QApplication&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include &amp;lt;QPushButton&amp;gt;&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;QApplication&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;QPushButton&lt;/span&gt; &lt;span class="n"&gt;button&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Quit"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;QObject&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;button&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;QPushButton&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;clicked&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;QApplication&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;button&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exec&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="code"></category></entry><entry><title>Hello World!</title><link href="http://elvisw.com/hello-world.html" rel="alternate"></link><updated>2015-02-01T19:30:00+08:00</updated><author><name>Elvis Wang</name></author><id>tag:elvisw.com,2015-02-01:hello-world.html</id><summary type="html">&lt;h1&gt;测试文章&lt;/h1&gt;
+&lt;p&gt;本文用来测试。  &lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry></feed>
