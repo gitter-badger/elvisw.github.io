@@ -180,13 +180,14 @@ My other header   {#foo}
 <li>如果剩下为空字串，则使用 <code>section</code> 作为 ID。</li>
 </ul>
 <p>以下是一些范例，</p>
-<p>Header                            Identifier
+<div class="highlight"><pre>  Header                            Identifier
   -------------------------------   ----------------------------
-  Header identifiers in HTML        <code>header-identifiers-in-html</code>
-<em>Dogs</em>?--in <em>my</em> house?           <code>dogs--in-my-house</code>
-  [HTML], [S5], or [RTF]?           <code>html-s5-or-rtf</code>
-  3. Applications                   <code>applications</code>
-  33                                <code>section</code></p>
+  Header identifiers in HTML        `header-identifiers-in-html`
+  *Dogs*?--in *my* house?           `dogs--in-my-house`
+  [HTML], [S5], or [RTF]?           `html-s5-or-rtf`
+  3. Applications                   `applications`
+  33                                `section`
+</pre></div>
 <p>在大多数情况下，这些规则应该让人能够直接从标题文字推导出 ID。唯一的例外是当有多个标题具有同样文字的情况；在这情况下，第一个标题的 ID 仍旧是透过以上规则推导而得；第二个则是在同样 ID 后加上 <code>-1</code>；第三个加上 <code>-2</code>；以此类推。</p>
 <p>在开启 <code>--toc|--table-of-contents</code> 的选项时，这些 ID 是用来产生目录 (Table of Contents) 所需的页面连结。此外，这些 ID 也提供了一个简便的方式来输入跳到指定章节的连结。一个以 ID 产生的连结，其使用的语法看起来就像下面的例子：</p>
 <div class="highlight"><pre><span class="n">See</span> <span class="n">the</span> <span class="n">section</span> <span class="n">on</span>
@@ -1018,6 +1019,21 @@ Blah blah [@smith04; @doe99].
                 <li class="list-group-item"><a href="http://elvisw.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
                     <ul class="list-group " id="tags">
                         <li class="list-group-item tag-4">
+                            <a href="http://elvisw.com/tag/pandoc.html">
+                                Pandoc
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://elvisw.com/tag/markdown.html">
+                                Markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://elvisw.com/tag/code.html">
+                                code
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
                             <a href="http://elvisw.com/tag/python.html">
                                 python
                             </a>
@@ -1028,23 +1044,8 @@ Blah blah [@smith04; @doe99].
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="http://elvisw.com/tag/code.html">
-                                code
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
                             <a href="http://elvisw.com/tag/publishing.html">
                                 publishing
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="http://elvisw.com/tag/pandoc.html">
-                                Pandoc
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
-                            <a href="http://elvisw.com/tag/markdown.html">
-                                Markdown
                             </a>
                         </li>
                     </ul>
