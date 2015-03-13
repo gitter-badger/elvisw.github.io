@@ -926,18 +926,56 @@ note.]
 <h2>引用</h2>
 <p><strong>Extension: <code>citations</code></strong></p>
 <p>Pandoc 能够以数种形式自动产生引用与参考书目（使用 Andrea Rossato 的 <code>hs-citeproc</code>）。为了使用这项功能，你需要一个下列其中一种格式的参考书目资料库：</p>
-<p>Format            File extension
-  ------------      --------------
-  MODS              .mods
-  BibLaTeX          .bib
-  BibTeX            .bibtex
-  RIS               .ris
-  EndNote           .enl
-  EndNote XML       .xml
-  ISI               .wos
-  MEDLINE           .medline
-  Copac             .copac
-  JSON citeproc     .json</p>
+<table class=" table-striped table table-hover">
+<thead>
+<tr>
+<th>Format</th>
+<th>File extension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MODS</td>
+<td>.mods</td>
+</tr>
+<tr>
+<td>BibLaTeX</td>
+<td>.bib</td>
+</tr>
+<tr>
+<td>BibTeX</td>
+<td>.bibtex</td>
+</tr>
+<tr>
+<td>RIS</td>
+<td>.ris</td>
+</tr>
+<tr>
+<td>EndNote</td>
+<td>.enl</td>
+</tr>
+<tr>
+<td>EndNote XML</td>
+<td>.xml</td>
+</tr>
+<tr>
+<td>ISI</td>
+<td>.wos</td>
+</tr>
+<tr>
+<td>MEDLINE</td>
+<td>.medline</td>
+</tr>
+<tr>
+<td>Copac</td>
+<td>.copac</td>
+</tr>
+<tr>
+<td>JSON citeproc</td>
+<td>.json</td>
+</tr>
+</tbody>
+</table>
 <p>需注意的是副档名 <code>.bib</code> 一般而言同时适用于 BibTeX 与 BibLaTeX 的档案，不过你可以使用 <code>.bibtex</code> 来强制指定 BibTeX。</p>
 <p>你需要使用命令列选项 <code>--bibliography</code> 来指定参考书目档案（如果有多个书目档就得反复指定）。</p>
 <p>预设情况下，pandoc 会在引用文献与参考书目中使用芝加哥「作者－日期」格式。要使用其他的格式，你需要用 <code>--csl</code> 选项来指定一个 <a href="http://CitationStyles.org">CSL</a> 1.0 格式的档案。关于建立与修改 CSL 格式的入门可以在 <a href="http://citationstyles.org/downloads/primer.html">http://citationstyles.org/downloads/primer.html</a> 这边找到。<a href="https://github.com/citation-style-language/styles">https://github.com/citation-style-language/styles</a> 是 CSL 格式的档案库。也可以在 <a href="http://zotero.org/styles">http://zotero.org/styles</a> 以简单的方式浏览。</p>
@@ -1045,11 +1083,6 @@ Blah blah [@smith04; @doe99].
                 <li class="list-group-item"><a href="http://elvisw.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
                     <ul class="list-group " id="tags">
                         <li class="list-group-item tag-4">
-                            <a href="http://elvisw.com/tag/code.html">
-                                code
-                            </a>
-                        </li>
-                        <li class="list-group-item tag-4">
                             <a href="http://elvisw.com/tag/publishing.html">
                                 publishing
                             </a>
@@ -1060,8 +1093,13 @@ Blah blah [@smith04; @doe99].
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="http://elvisw.com/tag/pandoc.html">
-                                Pandoc
+                            <a href="http://elvisw.com/tag/markdown.html">
+                                Markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://elvisw.com/tag/code.html">
+                                code
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
@@ -1070,8 +1108,8 @@ Blah blah [@smith04; @doe99].
                             </a>
                         </li>
                         <li class="list-group-item tag-4">
-                            <a href="http://elvisw.com/tag/markdown.html">
-                                Markdown
+                            <a href="http://elvisw.com/tag/pandoc.html">
+                                Pandoc
                             </a>
                         </li>
                     </ul>

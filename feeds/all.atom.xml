@@ -822,18 +822,56 @@ note.]
 &lt;h2&gt;引用&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Extension: &lt;code&gt;citations&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Pandoc 能够以数种形式自动产生引用与参考书目（使用 Andrea Rossato 的 &lt;code&gt;hs-citeproc&lt;/code&gt;）。为了使用这项功能，你需要一个下列其中一种格式的参考书目资料库：&lt;/p&gt;
-&lt;p&gt;Format            File extension
-  ------------      --------------
-  MODS              .mods
-  BibLaTeX          .bib
-  BibTeX            .bibtex
-  RIS               .ris
-  EndNote           .enl
-  EndNote XML       .xml
-  ISI               .wos
-  MEDLINE           .medline
-  Copac             .copac
-  JSON citeproc     .json&lt;/p&gt;
+&lt;table class=" table-striped table table-hover"&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Format&lt;/th&gt;
+&lt;th&gt;File extension&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;MODS&lt;/td&gt;
+&lt;td&gt;.mods&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BibLaTeX&lt;/td&gt;
+&lt;td&gt;.bib&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BibTeX&lt;/td&gt;
+&lt;td&gt;.bibtex&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RIS&lt;/td&gt;
+&lt;td&gt;.ris&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;EndNote&lt;/td&gt;
+&lt;td&gt;.enl&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;EndNote XML&lt;/td&gt;
+&lt;td&gt;.xml&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ISI&lt;/td&gt;
+&lt;td&gt;.wos&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MEDLINE&lt;/td&gt;
+&lt;td&gt;.medline&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Copac&lt;/td&gt;
+&lt;td&gt;.copac&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;JSON citeproc&lt;/td&gt;
+&lt;td&gt;.json&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;p&gt;需注意的是副档名 &lt;code&gt;.bib&lt;/code&gt; 一般而言同时适用于 BibTeX 与 BibLaTeX 的档案，不过你可以使用 &lt;code&gt;.bibtex&lt;/code&gt; 来强制指定 BibTeX。&lt;/p&gt;
 &lt;p&gt;你需要使用命令列选项 &lt;code&gt;--bibliography&lt;/code&gt; 来指定参考书目档案（如果有多个书目档就得反复指定）。&lt;/p&gt;
 &lt;p&gt;预设情况下，pandoc 会在引用文献与参考书目中使用芝加哥「作者－日期」格式。要使用其他的格式，你需要用 &lt;code&gt;--csl&lt;/code&gt; 选项来指定一个 &lt;a href="http://CitationStyles.org"&gt;CSL&lt;/a&gt; 1.0 格式的档案。关于建立与修改 CSL 格式的入门可以在 &lt;a href="http://citationstyles.org/downloads/primer.html"&gt;http://citationstyles.org/downloads/primer.html&lt;/a&gt; 这边找到。&lt;a href="https://github.com/citation-style-language/styles"&gt;https://github.com/citation-style-language/styles&lt;/a&gt; 是 CSL 格式的档案库。也可以在 &lt;a href="http://zotero.org/styles"&gt;http://zotero.org/styles&lt;/a&gt; 以简单的方式浏览。&lt;/p&gt;
